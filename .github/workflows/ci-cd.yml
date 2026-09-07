@@ -39,4 +39,4 @@ jobs:
 
       - name: Reiniciar Web App para cargar la nueva imagen
         run: |
-          az webapp restart --name app-devops-lab-2026 --resource-group rg-devops-lab
+          az webapp restart --name app-devops-jay-2026 --resource-group rg-devops-lab
