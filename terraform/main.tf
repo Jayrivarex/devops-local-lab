@@ -36,7 +36,7 @@ resource "azurerm_service_plan" "asp" {
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   os_type             = "Linux"
-  sku_name            = "F1" # Cambiado a Free Tier para omitir la restricción de cuota B1
+  sku_name            = "F1"
 }
 
 resource "azurerm_linux_web_app" "app" {

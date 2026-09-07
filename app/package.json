@@ -1,11 +1,12 @@
 {
   "name": "devops-api",
   "version": "1.0.0",
+  "description": "API de prueba para CI/CD con Terraform y Azure",
   "main": "index.js",
-  "dependencies": {
-    "express": "^4.19.2"
-  },
   "scripts": {
     "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
   }
 }
