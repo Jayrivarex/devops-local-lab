@@ -5,7 +5,7 @@ variable "resource_group_name" {
 
 variable "location" {
   type    = string
-  default = "eastus2"
+  default = "southcentralus" # Región con capacidad disponible para Free Tier
 }
 
 variable "acr_name" {
