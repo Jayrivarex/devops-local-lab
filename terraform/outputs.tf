@@ -1,9 +1,9 @@
-output "container_id" {
-  value       = docker_container.app_service.id
-  description = "ID del contenedor desplegado"
+output "acr_login_server" {
+  value       = azurerm_container_registry.acr.login_server
+  description = "URL del registro de contenedores ACR"
 }
 
-output "application_url" {
-  value       = "http://localhost:${var.external_port}"
-  description = "URL local de la aplicación"
+output "web_app_url" {
+  value       = "https://${azurerm_linux_web_app.app.default_hostname}"
+  description = "URL pública de la aplicación en Azure"
 }

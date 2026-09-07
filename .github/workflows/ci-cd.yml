@@ -1,49 +1,42 @@
-name: CI/CD Pipeline Local
+name: CI/CD Azure Pipeline
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout del código
+      - name: Checkout del Código
         uses: actions/checkout@v4
 
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
+      - name: Azure Login
+        uses: azure/login@v2
         with:
-          node-version: '20'
-
-      - name: Instalar dependencias del app
-        run: |
-          cd app
-          npm install
-
-      - name: Construir Imagen Docker
-        run: |
-          docker build -t devops-api:latest ./app
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Configurar Terraform
         uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.7.0
 
       - name: Terraform Init
         run: |
           cd terraform
           terraform init
 
-      - name: Terraform Plan
-        run: |
-          cd terraform
-          terraform plan
-
-      - name: Terraform Apply
+      - name: Terraform Apply (Desplegar ACR y Web App)
         run: |
           cd terraform
           terraform apply -auto-approve
+
+      - name: Build y Push de la Imagen Docker a ACR
+        run: |
+          ACR_SERVER=$(cd terraform && terraform output -raw acr_login_server)
+          az acr login --name $ACR_SERVER
+          docker build -t $ACR_SERVER/devops-api:latest ./app
+          docker push $ACR_SERVER/devops-api:latest
+
+      - name: Reiniciar Web App para cargar la nueva imagen
+        run: |
+          az webapp restart --name app-devops-lab-2026 --resource-group rg-devops-lab

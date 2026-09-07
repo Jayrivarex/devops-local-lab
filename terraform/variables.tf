@@ -1,14 +1,21 @@
-variable "image_name" {
+variable "resource_group_name" {
   type    = string
-  default = "devops-api:latest"
+  default = "rg-devops-lab"
 }
 
-variable "container_name" {
+variable "location" {
   type    = string
-  default = "devops-api-container"
+  default = "eastus"
 }
 
-variable "external_port" {
-  type    = number
-  default = 8080
+variable "acr_name" {
+  type        = string
+  default     = "acrdevopslab2026"
+  description = "Nombre de Azure Container Registry"
+}
+
+variable "app_name" {
+  type        = string
+  default     = "app-devops-lab-2026"
+  description = "Nombre de la Web App en Azure"
 }
